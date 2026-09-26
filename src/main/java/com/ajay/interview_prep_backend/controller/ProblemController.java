@@ -4,10 +4,7 @@ import com.ajay.interview_prep_backend.dto.ProblemDTO;
 import com.ajay.interview_prep_backend.service.ProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,10 +27,14 @@ public class ProblemController {
 
     @GetMapping("/{id}")
     public ProblemDTO getProblemByIId(@PathVariable Long id) {
-        return new ProblemDTO(
-                id,
-                "Sample",
-                "easy"
-        );
+        return problemService.getProblemById(id);
     }
+
+    @GetMapping("/difficulty/{difficulty}")
+    public List<ProblemDTO> getProblemByDifficulty(@PathVariable String difficulty) {
+        System.out.println("Difficulty: " + difficulty);
+        return problemService.getProblemByDifficulty(difficulty);
+    }
+
+
 }

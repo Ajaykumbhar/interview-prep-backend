@@ -27,7 +27,18 @@ public class ProblemService {
 //        )).toList();
     }
 
+    public ProblemDTO getProblemById(long id) {
+        Problem problem = problemRepository.findById(id).orElseThrow();
+        return toDTO(problem);
+    }
+
+    public List<ProblemDTO> getProblemByDifficulty(String difficulty){
+        List<Problem> problems = problemRepository.findByDifficulty(difficulty);
+        return problems.stream().map(this::toDTO).toList();
+    }
+
     private ProblemDTO toDTO(Problem problem) {
        return  new ProblemDTO(problem.getId(), problem.getTitle(), problem.getDifficulty());
     }
+
 }
