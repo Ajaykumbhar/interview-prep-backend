@@ -24,7 +24,8 @@ public class ProblemController {
     
     @GetMapping
     public List<ProblemDTO> getProblems() {
-        return problemService.getProblems();
+
+        return problemService.getAllProblems();
     }
 
     @GetMapping("/{id}")

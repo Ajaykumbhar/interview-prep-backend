@@ -1,6 +1,8 @@
 package com.ajay.interview_prep_backend.service;
 
 import com.ajay.interview_prep_backend.dto.ProblemDTO;
+import com.ajay.interview_prep_backend.entity.Problem;
+import com.ajay.interview_prep_backend.repository.ProblemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -9,24 +11,23 @@ import java.util.List;
 @Service
 public class ProblemService {
 
-    public List<ProblemDTO> getProblems() {
-        List<ProblemDTO> problems = List.of(
-                new ProblemDTO(
-                        1L,
-                        "Two Sum",
-                        "Easy"
-                        ),
-                new ProblemDTO(
-                        2L,
-                        "Three Sum",
-                        "Medium"
-                ),
-                new ProblemDTO(
-                        3L,
-                        "LRU Cache",
-                        "Hard"
-                )
-        );
-        return problems;
+    private final ProblemRepository problemRepository;
+    public ProblemService(ProblemRepository problemRepository) {
+        this.problemRepository = problemRepository;
+    }
+
+
+    public List<ProblemDTO> getAllProblems() {
+        List<Problem> problems =  problemRepository.findAll();
+        return problems.stream().map(this::toDTO).toList();
+//        return problems.stream().map(problem -> new ProblemDTO(
+//                problem.getId(),
+//                problem.getTitle(),
+//                problem.getDifficulty()
+//        )).toList();
+    }
+
+    private ProblemDTO toDTO(Problem problem) {
+       return  new ProblemDTO(problem.getId(), problem.getTitle(), problem.getDifficulty());
     }
 }
