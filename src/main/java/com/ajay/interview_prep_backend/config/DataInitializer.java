@@ -13,9 +13,10 @@ public class DataInitializer {
     @Bean
     CommandLineRunner loadData(ProblemRepository repository) {
         return args -> {
+
             repository.save(
                     new Problem(
-                            1L,
+                            null,
                             "Two Sum",
                             "Easy"
                     )
@@ -23,7 +24,7 @@ public class DataInitializer {
 
             repository.save(
                     new Problem(
-                            2L,
+                            null,
                             "Three Sum",
                             "Medium"
                     )
@@ -31,12 +32,11 @@ public class DataInitializer {
 
             repository.save(
                     new Problem(
-                            3L,
+                            null,
                             "LRU Cache",
                             "Hard"
                     )
             );
-
         };
     }
 }

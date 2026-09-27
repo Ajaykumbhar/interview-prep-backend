@@ -37,8 +37,20 @@ public class ProblemService {
         return problems.stream().map(this::toDTO).toList();
     }
 
+
+    public ProblemDTO createProblem(ProblemDTO problemDTO) {
+        Problem  problem = new Problem(
+                problemDTO.getId(),
+                problemDTO.getTitle(),
+                problemDTO.getDifficulty()
+        );
+        Problem savedProblem = problemRepository.save(problem);
+        return toDTO(savedProblem);
+    }
+
     private ProblemDTO toDTO(Problem problem) {
        return  new ProblemDTO(problem.getId(), problem.getTitle(), problem.getDifficulty());
     }
+
 
 }

@@ -2,8 +2,10 @@ package com.ajay.interview_prep_backend.controller;
 
 import com.ajay.interview_prep_backend.dto.ProblemDTO;
 import com.ajay.interview_prep_backend.service.ProblemService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +20,9 @@ public class ProblemController {
     public ProblemController(ProblemService problemService) {
         this.problemService = problemService;
     }
-    
+
+
+    // ********************* Get Mappings *******************************//
     @GetMapping
     public List<ProblemDTO> getProblems() {
 
@@ -36,5 +40,11 @@ public class ProblemController {
         return problemService.getProblemByDifficulty(difficulty);
     }
 
+
+    // ****************************** Post Mappings *****************************//
+    @PostMapping
+    public ProblemDTO createProblem(@Valid @RequestBody ProblemDTO problemDTO) {
+        return problemService.createProblem(problemDTO);
+    }
 
 }
