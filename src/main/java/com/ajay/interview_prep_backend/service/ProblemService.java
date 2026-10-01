@@ -48,7 +48,7 @@ public class ProblemService {
         return toDTO(savedProblem);
     }
 
-    public ProblemDTO updateProblem(Long id, ProblemDTO problemDTO) {
+     public ProblemDTO updateProblem(Long id, ProblemDTO problemDTO) {
         Problem problem = problemRepository.findById(id).orElseThrow( ()-> new RuntimeException("problem not found"));
 
         problem.setTitle(problemDTO.getTitle());
