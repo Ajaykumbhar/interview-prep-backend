@@ -4,7 +4,6 @@ import com.ajay.interview_prep_backend.dto.ProblemDTO;
 import com.ajay.interview_prep_backend.entity.Problem;
 import com.ajay.interview_prep_backend.repository.ProblemRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
