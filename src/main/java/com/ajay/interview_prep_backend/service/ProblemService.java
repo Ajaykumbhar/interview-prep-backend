@@ -48,6 +48,22 @@ public class ProblemService {
         return toDTO(savedProblem);
     }
 
+    public ProblemDTO updateProblem(Long id, ProblemDTO problemDTO) {
+        Problem problem = problemRepository.findById(id).orElseThrow( ()-> new RuntimeException("problem not found"));
+
+        problem.setTitle(problemDTO.getTitle());
+        problem.setDifficulty(problemDTO.getDifficulty());
+        Problem updatedProblem = problemRepository.save(problem);
+        return toDTO(updatedProblem);
+    }
+
+    public void deleteProblem(Long id) {
+        Problem problem = problemRepository
+                .findById(id)
+                .orElseThrow();
+        problemRepository.delete(problem);
+    }
+
     private ProblemDTO toDTO(Problem problem) {
        return  new ProblemDTO(problem.getId(), problem.getTitle(), problem.getDifficulty());
     }

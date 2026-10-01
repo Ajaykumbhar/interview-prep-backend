@@ -24,4 +24,16 @@ public class ProblemDTO {
     public String getDifficulty() {
         return difficulty;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
 }

@@ -47,4 +47,18 @@ public class ProblemController {
         return problemService.createProblem(problemDTO);
     }
 
+    // ****************************** Put Mappings *****************************//
+
+    @PutMapping("/{id}")
+    public ProblemDTO updateProblem(@PathVariable Long id, @Valid @RequestBody ProblemDTO problemDTO) {
+        return problemService.updateProblem(id, problemDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProblem(@PathVariable Long id) {
+        problemService.deleteProblem(id);
+        return  ResponseEntity.noContent().build();
+
+    }
+
 }
