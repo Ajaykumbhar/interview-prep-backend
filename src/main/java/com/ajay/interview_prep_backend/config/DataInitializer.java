@@ -13,30 +13,31 @@ public class DataInitializer {
     @Bean
     CommandLineRunner loadData(ProblemRepository repository) {
         return args -> {
+            if(repository.count() == 0) {
+                repository.save(
+                        new Problem(
+                                null,
+                                "Two Sum",
+                                "Easy"
+                        )
+                );
 
-            repository.save(
-                    new Problem(
-                            null,
-                            "Two Sum",
-                            "Easy"
-                    )
-            );
+                repository.save(
+                        new Problem(
+                                null,
+                                "Three Sum",
+                                "Medium"
+                        )
+                );
 
-            repository.save(
-                    new Problem(
-                            null,
-                            "Three Sum",
-                            "Medium"
-                    )
-            );
-
-            repository.save(
-                    new Problem(
-                            null,
-                            "LRU Cache",
-                            "Hard"
-                    )
-            );
+                repository.save(
+                        new Problem(
+                                null,
+                                "LRU Cache",
+                                "Hard"
+                        )
+                );
+            }
         };
     }
 }

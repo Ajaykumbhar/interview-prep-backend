@@ -1,12 +1,14 @@
 package com.ajay.interview_prep_backend.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
+@Table(name="problems")
 public class Problem {
 
     @Id
@@ -14,8 +16,11 @@ public class Problem {
     private Long id;
 
     @NotBlank(message = "Title cannot be empty")
+    @Column(name="problem_title", nullable=false, length=100)
     private String title;
+
     @NotBlank(message ="Difficulty cannot be empty")
+    @Column(name="problem_difficulty",nullable = false)
     private String difficulty;
 
     public Problem() {}
@@ -25,25 +30,4 @@ public class Problem {
         this.difficulty = difficulty;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
 }
