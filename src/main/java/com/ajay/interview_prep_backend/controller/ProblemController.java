@@ -1,6 +1,7 @@
 package com.ajay.interview_prep_backend.controller;
 
 import com.ajay.interview_prep_backend.dto.ProblemDTO;
+import com.ajay.interview_prep_backend.dto.ProblemRequest;
 import com.ajay.interview_prep_backend.service.ProblemService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +44,16 @@ public class ProblemController {
 
     // ****************************** Post Mappings *****************************//
     @PostMapping
-    public ProblemDTO createProblem(@Valid @RequestBody ProblemDTO problemDTO) {
-        return problemService.createProblem(problemDTO);
+    public ProblemDTO createProblem(@Valid @RequestBody ProblemRequest request) {
+        System.out.println("Title = [" + request.getTitle() + "]");
+        return problemService.createProblem(request);
     }
 
     // ****************************** Put Mappings *****************************//
 
     @PutMapping("/{id}")
-    public ProblemDTO updateProblem(@PathVariable Long id, @Valid @RequestBody ProblemDTO problemDTO) {
-        return problemService.updateProblem(id, problemDTO);
+    public ProblemDTO updateProblem(@PathVariable Long id, @Valid @RequestBody ProblemRequest request) {
+        return problemService.updateProblem(id, request);
     }
 
     @DeleteMapping("/{id}")

@@ -1,7 +1,9 @@
 package com.ajay.interview_prep_backend.service;
 
 import com.ajay.interview_prep_backend.dto.ProblemDTO;
+import com.ajay.interview_prep_backend.dto.ProblemRequest;
 import com.ajay.interview_prep_backend.entity.Problem;
+import com.ajay.interview_prep_backend.exception.ProblemNotFoundException;
 import com.ajay.interview_prep_backend.repository.ProblemRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,7 @@ public class ProblemService {
     }
 
     public ProblemDTO getProblemById(long id) {
-        Problem problem = problemRepository.findById(id).orElseThrow();
+        Problem problem = problemRepository.findById(id).orElseThrow(()-> new ProblemNotFoundException("Problem not found with id: "+id));
         return toDTO(problem);
     }
 
@@ -37,21 +39,19 @@ public class ProblemService {
     }
 
 
-    public ProblemDTO createProblem(ProblemDTO problemDTO) {
-        Problem  problem = new Problem(
-                problemDTO.getId(),
-                problemDTO.getTitle(),
-                problemDTO.getDifficulty()
-        );
+    public ProblemDTO createProblem(ProblemRequest request) {
+        Problem  problem = new Problem();
+        problem.setTitle(request.getTitle());
+        problem.setDifficulty(request.getDifficulty());
         Problem savedProblem = problemRepository.save(problem);
         return toDTO(savedProblem);
     }
 
-     public ProblemDTO updateProblem(Long id, ProblemDTO problemDTO) {
-        Problem problem = problemRepository.findById(id).orElseThrow( ()-> new RuntimeException("problem not found"));
+     public ProblemDTO updateProblem(Long id, ProblemRequest request) {
+        Problem problem = problemRepository.findById(id).orElseThrow( ()-> new ProblemNotFoundException("Problem not found with id: "+ id));
 
-        problem.setTitle(problemDTO.getTitle());
-        problem.setDifficulty(problemDTO.getDifficulty());
+        problem.setTitle(request.getTitle());
+        problem.setDifficulty(request.getDifficulty());
         Problem updatedProblem = problemRepository.save(problem);
         return toDTO(updatedProblem);
     }
@@ -59,7 +59,7 @@ public class ProblemService {
     public void deleteProblem(Long id) {
         Problem problem = problemRepository
                 .findById(id)
-                .orElseThrow();
+                .orElseThrow(()-> new ProblemNotFoundException("Problem not found with id: "+id));
         problemRepository.delete(problem);
     }
 
