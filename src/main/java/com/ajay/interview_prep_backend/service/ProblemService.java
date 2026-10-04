@@ -1,6 +1,6 @@
 package com.ajay.interview_prep_backend.service;
 
-import com.ajay.interview_prep_backend.dto.ProblemDTO;
+import com.ajay.interview_prep_backend.dto.ProblemResponse;
 import com.ajay.interview_prep_backend.dto.ProblemRequest;
 import com.ajay.interview_prep_backend.entity.Problem;
 import com.ajay.interview_prep_backend.exception.ProblemNotFoundException;
@@ -18,28 +18,33 @@ public class ProblemService {
     }
 
 
-    public List<ProblemDTO> getAllProblems() {
+    //***** Get Mapping calla *******?
+
+    public List<ProblemResponse> getAllProblems() {
         List<Problem> problems =  problemRepository.findAll();
         return problems.stream().map(this::toDTO).toList();
-//        return problems.stream().map(problem -> new ProblemDTO(
+//        return problems.stream().map(problem -> new ProblemResponse(
 //                problem.getId(),
 //                problem.getTitle(),
 //                problem.getDifficulty()
 //        )).toList();
     }
 
-    public ProblemDTO getProblemById(long id) {
+    public ProblemResponse getProblemById(long id) {
         Problem problem = problemRepository.findById(id).orElseThrow(()-> new ProblemNotFoundException("Problem not found with id: "+id));
         return toDTO(problem);
     }
 
-    public List<ProblemDTO> getProblemByDifficulty(String difficulty){
+    public List<ProblemResponse> getProblemByDifficulty(String difficulty){
         List<Problem> problems = problemRepository.findByDifficulty(difficulty);
         return problems.stream().map(this::toDTO).toList();
     }
 
 
-    public ProblemDTO createProblem(ProblemRequest request) {
+    // ****** Post Mappings *******//
+
+
+    public ProblemResponse createProblem(ProblemRequest request) {
         Problem  problem = new Problem();
         problem.setTitle(request.getTitle());
         problem.setDifficulty(request.getDifficulty());
@@ -47,7 +52,7 @@ public class ProblemService {
         return toDTO(savedProblem);
     }
 
-     public ProblemDTO updateProblem(Long id, ProblemRequest request) {
+     public ProblemResponse updateProblem(Long id, ProblemRequest request) {
         Problem problem = problemRepository.findById(id).orElseThrow( ()-> new ProblemNotFoundException("Problem not found with id: "+ id));
 
         problem.setTitle(request.getTitle());
@@ -63,8 +68,8 @@ public class ProblemService {
         problemRepository.delete(problem);
     }
 
-    private ProblemDTO toDTO(Problem problem) {
-       return  new ProblemDTO(problem.getId(), problem.getTitle(), problem.getDifficulty());
+    private ProblemResponse toDTO(Problem problem) {
+       return  new ProblemResponse(problem.getId(), problem.getTitle(), problem.getDifficulty());
     }
 
 

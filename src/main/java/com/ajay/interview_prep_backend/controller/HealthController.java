@@ -1,6 +1,6 @@
 package com.ajay.interview_prep_backend.controller;
 
-import com.ajay.interview_prep_backend.dto.ApiResponse;
+import com.ajay.interview_prep_backend.dto.ApiResponseDTO;
 import com.ajay.interview_prep_backend.service.GreetingService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,17 +15,17 @@ public class HealthController {
         this.greetingService = greetingService;
     }
     @GetMapping("/health/{name}")
-    public ApiResponse hello(@PathVariable String name) {
-        return new ApiResponse("Success", greetingService.getGreeting() + " " +name );
+    public ApiResponseDTO hello(@PathVariable String name) {
+        return new ApiResponseDTO("Success", greetingService.getGreeting() + " " +name );
     }
 
     @GetMapping("/health")
-    public ApiResponse health() {
-        return new ApiResponse("Success", greetingService.getGreeting());
+    public ApiResponseDTO health() {
+        return new ApiResponseDTO("Success", greetingService.getGreeting());
     }
 
     @GetMapping("/greet")
-    public ApiResponse greet(@RequestParam String name) {
-        return new ApiResponse("Success", greetingService.getGreeting() + " ::: " +name );
+    public ApiResponseDTO greet(@RequestParam String name) {
+        return new ApiResponseDTO("Success", greetingService.getGreeting() + " ::: " +name );
     }
 }

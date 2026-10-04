@@ -1,13 +1,13 @@
 package com.ajay.interview_prep_backend.dto;
 
-public class ProblemDTO {
+public class ProblemResponse {
     private Long id;
     private String title;
     private String difficulty;
 
-    public  ProblemDTO() {
+    public ProblemResponse() {
     }
-    public ProblemDTO(Long id, String title, String difficulty) {
+    public ProblemResponse(Long id, String title, String difficulty) {
         this.id = id;
         this.title = title;
         this.difficulty = difficulty;

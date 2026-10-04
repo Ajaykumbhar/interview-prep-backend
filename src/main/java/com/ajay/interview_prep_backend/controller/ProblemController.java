@@ -1,12 +1,10 @@
 package com.ajay.interview_prep_backend.controller;
 
-import com.ajay.interview_prep_backend.dto.ProblemDTO;
+import com.ajay.interview_prep_backend.dto.ProblemResponse;
 import com.ajay.interview_prep_backend.dto.ProblemRequest;
 import com.ajay.interview_prep_backend.service.ProblemService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,26 +23,27 @@ public class ProblemController {
 
     // ********************* Get Mappings *******************************//
     @GetMapping
-    public List<ProblemDTO> getProblems() {
+    public List<ProblemResponse> getProblems(@RequestParam(required = false) String difficulty) {
+        if(difficulty !=null && !difficulty.isBlank()){
+            return problemService.getProblemByDifficulty(difficulty);
+        }
 
         return problemService.getAllProblems();
     }
 
     @GetMapping("/{id}")
-    public ProblemDTO getProblemByIId(@PathVariable Long id) {
+    public ProblemResponse getProblemByIId(@PathVariable Long id) {
         return problemService.getProblemById(id);
     }
 
-    @GetMapping("/difficulty/{difficulty}")
-    public List<ProblemDTO> getProblemByDifficulty(@PathVariable String difficulty) {
-        System.out.println("Difficulty: " + difficulty);
-        return problemService.getProblemByDifficulty(difficulty);
-    }
+
+
+
 
 
     // ****************************** Post Mappings *****************************//
     @PostMapping
-    public ProblemDTO createProblem(@Valid @RequestBody ProblemRequest request) {
+    public ProblemResponse createProblem(@Valid @RequestBody ProblemRequest request) {
         System.out.println("Title = [" + request.getTitle() + "]");
         return problemService.createProblem(request);
     }
@@ -52,7 +51,7 @@ public class ProblemController {
     // ****************************** Put Mappings *****************************//
 
     @PutMapping("/{id}")
-    public ProblemDTO updateProblem(@PathVariable Long id, @Valid @RequestBody ProblemRequest request) {
+    public ProblemResponse updateProblem(@PathVariable Long id, @Valid @RequestBody ProblemRequest request) {
         return problemService.updateProblem(id, request);
     }
 

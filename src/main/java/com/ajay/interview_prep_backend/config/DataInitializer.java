@@ -1,6 +1,5 @@
 package com.ajay.interview_prep_backend.config;
 
-import com.ajay.interview_prep_backend.dto.ProblemDTO;
 import com.ajay.interview_prep_backend.entity.Problem;
 import com.ajay.interview_prep_backend.repository.ProblemRepository;
 import org.springframework.boot.CommandLineRunner;
