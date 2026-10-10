@@ -8,7 +8,7 @@ import com.ajay.interview_prep_backend.entity.User;
 import com.ajay.interview_prep_backend.exception.EmailAlreadyExistsException;
 import com.ajay.interview_prep_backend.exception.InvalidCredentialsException;
 import com.ajay.interview_prep_backend.repository.UserRepository;
-import org.springframework.http.HttpStatus;
+import com.ajay.interview_prep_backend.security.JwtUtil;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,10 +16,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
-    private PasswordEncoder passwordEncoder;
-    public UserService(UserRepository userRepository) {
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+    public UserService(UserRepository userRepository,JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil=jwtUtil;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -48,7 +50,8 @@ public class UserService {
         if(!matches){
             throw new InvalidCredentialsException("Invalid username or password!");
         }
-        return ApiResponseDTO.builder().status("Success").message("Login  successful!").build();
+        String token = jwtUtil.generateToken(user.getUserEmail());
+        return ApiResponseDTO.builder().status("Success").message("Login  successful!").token(token).build();
     }
     public User findByUserEmail(String email){
         return  userRepository.findByUserEmail(email).orElseThrow(()-> new InvalidCredentialsException("Invalid username or password!"));

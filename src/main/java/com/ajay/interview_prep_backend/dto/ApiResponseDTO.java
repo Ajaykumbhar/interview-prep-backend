@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class ApiResponseDTO {
 
     private String  status;
+    private String token;
     private String message;
 }

@@ -16,16 +16,16 @@ public class HealthController {
     }
     @GetMapping("/health/{name}")
     public ApiResponseDTO hello(@PathVariable String name) {
-        return new ApiResponseDTO("Success", greetingService.getGreeting() + " " +name );
+        return ApiResponseDTO.builder().status("Success").message(greetingService.getGreeting() + " " +name ).build();
     }
 
     @GetMapping("/health")
     public ApiResponseDTO health() {
-        return new ApiResponseDTO("Success", greetingService.getGreeting());
+        return ApiResponseDTO.builder().status("Success").message(greetingService.getGreeting()).build();
     }
 
     @GetMapping("/greet")
     public ApiResponseDTO greet(@RequestParam String name) {
-        return new ApiResponseDTO("Success", greetingService.getGreeting() + " ::: " +name );
+        return ApiResponseDTO.builder().status("Success").message(greetingService.getGreeting() + " ::: " +name ).build();
     }
 }
