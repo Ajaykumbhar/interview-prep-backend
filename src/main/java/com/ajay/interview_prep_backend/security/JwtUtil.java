@@ -41,9 +41,7 @@ public class JwtUtil {
         try{
             Date expiry = extractClaims(token).getExpiration();
             return expiry==null || expiry.before(new Date());
-        }catch(io.jsonwebtoken.ExpiredJwtException e){
-            return true;
-        }catch(JwtException | IllegalArgumentException e){
+        } catch(JwtException | IllegalArgumentException e){
             return true;
         }
     }

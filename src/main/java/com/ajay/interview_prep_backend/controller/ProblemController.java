@@ -4,11 +4,15 @@ import com.ajay.interview_prep_backend.dto.ProblemResponse;
 import com.ajay.interview_prep_backend.dto.ProblemRequest;
 import com.ajay.interview_prep_backend.service.ProblemService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/problems")
 public class ProblemController {
@@ -23,12 +27,16 @@ public class ProblemController {
 
     // ********************* Get Mappings *******************************//
     @GetMapping
-    public List<ProblemResponse> getProblems(@RequestParam(required = false) String difficulty) {
+    public Page<ProblemResponse> getProblems(
+            @RequestParam(required = false) String difficulty,
+            @PageableDefault(size=10) Pageable pageable) {
         if(difficulty !=null && !difficulty.isBlank()){
-            return problemService.getProblemByDifficulty(difficulty);
+            return problemService.getProblemByDifficulty(
+                    difficulty,
+                    pageable);
         }
 
-        return problemService.getAllProblems();
+        return problemService.getAllProblems(pageable);
     }
 
     @GetMapping("/{id}")
@@ -44,7 +52,7 @@ public class ProblemController {
     // ****************************** Post Mappings *****************************//
     @PostMapping
     public ProblemResponse createProblem(@Valid @RequestBody ProblemRequest request) {
-        System.out.println("Title = [" + request.getTitle() + "]");
+        log.info("Title = [{}]", request.getTitle());
         return problemService.createProblem(request);
     }
 

@@ -5,6 +5,8 @@ import com.ajay.interview_prep_backend.dto.ProblemRequest;
 import com.ajay.interview_prep_backend.entity.Problem;
 import com.ajay.interview_prep_backend.exception.ProblemNotFoundException;
 import com.ajay.interview_prep_backend.repository.ProblemRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,14 +22,14 @@ public class ProblemService {
 
     //***** Get Mapping calla *******?
 
-    public List<ProblemResponse> getAllProblems() {
-        List<Problem> problems =  problemRepository.findAll();
-        return problems.stream().map(this::toDTO).toList();
+    public Page<ProblemResponse> getAllProblems(Pageable pageable) {
+        Page<Problem> problems =  problemRepository.findAll(pageable);
+        return problems.map(this::toDTO);
 //        return problems.stream().map(problem -> new ProblemResponse(
 //                problem.getId(),
 //                problem.getTitle(),
 //                problem.getDifficulty()
-//        )).toList();
+//        )).toList();s
     }
 
     public ProblemResponse getProblemById(long id) {
@@ -35,9 +37,9 @@ public class ProblemService {
         return toDTO(problem);
     }
 
-    public List<ProblemResponse> getProblemByDifficulty(String difficulty){
-        List<Problem> problems = problemRepository.findByDifficulty(difficulty);
-        return problems.stream().map(this::toDTO).toList();
+    public Page<ProblemResponse> getProblemByDifficulty(String difficulty, Pageable pageable){
+        Page<Problem> problems = problemRepository.findByDifficulty(difficulty,pageable);
+        return problems.map(this::toDTO);
     }
 
 
