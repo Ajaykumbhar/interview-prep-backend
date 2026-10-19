@@ -58,11 +58,16 @@ public class JwtFilter extends OncePerRequestFilter {
                     IllegalArgumentException e
             ) {
                 SecurityContextHolder.clearContext();
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
 
-                response.sendError(
-                          HttpServletResponse.SC_UNAUTHORIZED,
-                        "Invalid or expired token"
-                );
+                response.getWriter().write("""
+                {
+                "status": 401,
+                "message": "Invalid or expired token"
+                }
+                """);
 
                 return;
             }
