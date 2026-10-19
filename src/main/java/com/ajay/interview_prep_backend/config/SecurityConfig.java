@@ -46,15 +46,16 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/health", "/health/**", "/greet"
                         ).permitAll()
-                        .requestMatchers(
-                                "/api/problems", "/api/problems/**"
-                        ).authenticated()
-                        .requestMatchers(
-                                HttpMethod.POST, "/api/problems", "/api/problems/**"
-                        ).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT,"/api/problems", "/api/problems/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE,"/api/problems", "/api/problems/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PATCH,"/api/problems", "/api/problems/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/problems", "/api/problems/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT,"/api/problems", "/api/problems/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/api/problems", "/api/problems/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PATCH,"/api/problems", "/api/problems/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/problems", "/api/problems/**")
+                        .authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(
