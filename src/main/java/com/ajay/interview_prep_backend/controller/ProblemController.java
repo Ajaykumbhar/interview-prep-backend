@@ -28,15 +28,12 @@ public class ProblemController {
     // ********************* Get Mappings *******************************//
     @GetMapping
     public Page<ProblemResponse> getProblems(
+            @RequestParam(required = false) String search,
             @RequestParam(required = false) String difficulty,
             @PageableDefault(size=10) Pageable pageable) {
-        if(difficulty !=null && !difficulty.isBlank()){
-            return problemService.getProblemByDifficulty(
-                    difficulty,
-                    pageable);
-        }
-
-        return problemService.getAllProblems(pageable);
+       return problemService.searchProblems(search,
+               difficulty,
+               pageable);
     }
 
     @GetMapping("/{id}")

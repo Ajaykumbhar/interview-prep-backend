@@ -22,6 +22,30 @@ public class ProblemService {
 
     //***** Get Mapping calla *******?
 
+    public Page<ProblemResponse> searchProblems(
+            String search,
+            String difficulty,
+            Pageable pageable
+    ){
+        if(search!=null){
+            search = search.trim();
+            if(search.isEmpty()){
+                search=null;
+            }
+        }
+
+        if(difficulty!=null){
+            difficulty=difficulty.trim();
+            if(difficulty.isEmpty()){
+                difficulty=null;
+            }
+        }
+
+        Page<Problem> problems = problemRepository.searchProblems(search,difficulty,pageable);
+        return problems.map(this::toDTO);
+    }
+
+
     public Page<ProblemResponse> getAllProblems(Pageable pageable) {
         Page<Problem> problems =  problemRepository.findAll(pageable);
         return problems.map(this::toDTO);
