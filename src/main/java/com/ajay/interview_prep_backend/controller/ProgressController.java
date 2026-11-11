@@ -46,4 +46,18 @@ public class ProgressController {
 
     }
 
+    @GetMapping("/{problemId}")
+    public ResponseEntity<ProgressResponse> getProgress(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PathVariable Long problemId
+    ){
+        ProgressResponse response = progressService.getProgress(
+                userDetails.getUsername(),
+                problemId
+        );
+        return ResponseEntity.ok(response);
+    }
+
+
+
 }

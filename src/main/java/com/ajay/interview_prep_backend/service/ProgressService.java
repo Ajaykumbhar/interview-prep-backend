@@ -76,6 +76,30 @@ public class ProgressService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public ProgressResponse getProgress(String userEmail, Long problemId){
+         //Step1 : User identification
+        User user = userRepository.findByUserEmail(userEmail)
+                .orElseThrow(()->
+                        new UserNotFoundException("User not found"));
+        //Step2 : Problem Exist?
+        Problem problem = problemRepository.findById(problemId)
+                .orElseThrow(()-> new ProblemNotFoundException("Problem not found with Id: "+problemId));
+
+        // Search Progress
+        return progressRepository.findProgress(user.getId(),problemId)
+                .map(this::mapToResponse)
+                .orElseGet(() -> new ProgressResponse(
+                        problem.getId(),
+                        problem.getTitle(),
+                        "NOT_STARTED",
+                        "",
+                        null,
+                        null
+                ));
+
+    }
+
 
 
     private  ProgressResponse mapToResponse(ProblemProgress progress){
