@@ -11,6 +11,8 @@ import com.ajay.interview_prep_backend.repository.ProblemProgressRepository;
 import com.ajay.interview_prep_backend.repository.ProblemRepository;
 import com.ajay.interview_prep_backend.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -65,15 +67,16 @@ public class ProgressService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProgressResponse> getMyProgress(String userEmail){
+    public Page<ProgressResponse> getMyProgress(String userEmail, Pageable pageable){
         User user = userRepository.findByUserEmail(userEmail)
                 .orElseThrow(()-> new UserNotFoundException("User not found"));
 
         return progressRepository
-                .findAllByUser_IdOrderByUpdatedAtDesc(user.getId())
-                .stream()
-                .map(this::mapToResponse)
-                .toList();
+                .findAllByUser_IdOrderByUpdatedAtDesc(
+                        user.getId(),
+                        pageable
+                )
+                .map(this::mapToResponse);
     }
 
     @Transactional(readOnly = true)

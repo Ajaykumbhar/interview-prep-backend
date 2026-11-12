@@ -5,6 +5,9 @@ import com.ajay.interview_prep_backend.dto.ProgressRequest;
 import com.ajay.interview_prep_backend.dto.ProgressResponse;
 import com.ajay.interview_prep_backend.service.ProgressService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,10 +41,11 @@ public class ProgressController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<List<ProgressResponse>> getMyProgress(
-            @AuthenticationPrincipal UserDetails userDetails
-    ){
-        List<ProgressResponse> progress = progressService.getMyProgress(userDetails.getUsername());
+    public ResponseEntity<Page<ProgressResponse>> getMyProgress(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @PageableDefault(size = 10) Pageable pageable
+            ){
+        Page<ProgressResponse> progress = progressService.getMyProgress(userDetails.getUsername(), pageable);
         return ResponseEntity.ok(progress);
 
     }
